@@ -1,0 +1,14 @@
+flask
+werkzeug
+Pillow
+torch
+torchvision
+einops
+numpy
+flask-cors
+opencv-python
+torchgeometry
+kornia
+bchlib
+lpips
+waitress
