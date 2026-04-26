@@ -12,3 +12,4 @@ kornia
 bchlib
 lpips
 waitress
+gunicorn
