@@ -1,0 +1,367 @@
+:root {
+    --ink: #0c0c0c;
+    --paper: #ffffff;
+    --muted: #1f1f1f;
+    --line: #0c0c0c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--paper);
+    background-image:
+        linear-gradient(90deg, rgba(12,12,12,0.04) 1px, transparent 1px),
+        linear-gradient(rgba(12,12,12,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--ink);
+    font-family: "Neue Haas Grotesk", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+}
+
+.page {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 52px 22px 72px;
+}
+
+.masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 28px;
+    border-bottom: 2px solid var(--line);
+}
+
+.logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo-mark {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border: 2px solid var(--line);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    box-shadow: 8px 8px 0 var(--line);
+}
+
+.logo-mark .logo-ring {
+    position: absolute;
+    inset: 12px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+}
+
+.logo-mark .logo-glyph {
+    display: block;
+    width: 26px;
+    height: 26px;
+    border: 2px solid var(--line);
+    transform: rotate(18deg);
+}
+
+.brand .eyebrow {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    margin: 0;
+    color: var(--muted);
+}
+
+.brand .product {
+    margin: 4px 0 0;
+    font-size: 28px;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+}
+
+.lede {
+    margin: 0 0 4px;
+    max-width: 580px;
+    color: var(--muted);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 32px;
+}
+
+.panel {
+    background: var(--paper);
+    border: 2px solid var(--line);
+    padding: 26px;
+    box-shadow: 14px 14px 0 var(--line);
+    position: relative;
+    isolation: isolate;
+}
+
+.panel::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px dashed rgba(12,12,12,0.2);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+}
+
+.panel-heading h2 {
+    margin: 4px 0 0;
+    font-size: 20px;
+}
+
+.panel-heading .kicker {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.panel-heading .hint {
+    margin: 0;
+    max-width: 300px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.stack {
+    display: grid;
+    gap: 16px;
+}
+
+.field {
+    display: grid;
+    gap: 8px;
+}
+
+.field span,
+.field legend {
+    font-size: 14px;
+    letter-spacing: 0.02em;
+}
+
+input[type="file"],
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+}
+
+textarea { resize: vertical; min-height: 120px; }
+
+fieldset {
+    border: 1.5px solid var(--line);
+    padding: 12px 14px 10px;
+}
+
+.payload-toggle {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.payload-toggle label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dual {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+button.primary {
+    justify-self: start;
+    border: 2px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    padding: 12px 18px;
+    font-weight: 650;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+    box-shadow: 8px 8px 0 var(--line);
+}
+
+button.primary:hover { transform: translate(-2px, -2px); box-shadow: 12px 12px 0 var(--line); }
+button.primary:active { transform: translate(0, 0); box-shadow: 8px 8px 0 var(--line); }
+
+.result {
+    border: 1.5px solid var(--line);
+    padding: 12px 14px;
+    min-height: 22px;
+    background: var(--paper);
+    color: var(--ink);
+    letter-spacing: 0.01em;
+}
+
+.result a {
+    color: inherit;
+    font-weight: 650;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+}
+
+.result[data-state="pending"] { opacity: 0.8; }
+.result[data-state="error"] { background: #f9f9f9; }
+.result[data-state="success"] { background: var(--paper); }
+
+.preview-block {
+    display: grid;
+    gap: 6px;
+}
+
+.preview-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+}
+
+.preview-frame {
+    border: 1.5px solid var(--line);
+    min-height: 160px;
+    display: grid;
+    place-items: center;
+    background: repeating-linear-gradient(45deg, transparent 0, transparent 18px, rgba(12,12,12,0.02) 18px, rgba(12,12,12,0.02) 36px);
+    position: relative;
+    overflow: hidden;
+}
+
+.preview-frame img {
+    max-width: 100%;
+    max-height: 240px;
+    object-fit: contain;
+}
+
+.preview-frame pre {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    overflow: auto;
+    background: transparent;
+}
+
+.preview-frame audio {
+    width: 100%;
+}
+
+.placeholder {
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-align: center;
+    padding: 10px;
+}
+
+.hidden { display: none; }
+
+/* ── Mode switcher (LSB ↔ AI) ──────────────────────────────────────────────── */
+.mode-switcher {
+    display: flex;
+    gap: 0;
+    margin: 28px 0 24px;
+    border: 2px solid var(--line);
+    width: fit-content;
+    box-shadow: 6px 6px 0 var(--line);
+}
+
+.mode-btn {
+    padding: 10px 24px;
+    border: none;
+    background: var(--paper);
+    color: var(--muted);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+    border-right: 2px solid var(--line);
+}
+
+.mode-btn:last-child { border-right: none; }
+
+.mode-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+.mode-btn:not(.active):hover { background: rgba(12,12,12,0.06); }
+
+/* ── AI sub-mode switcher (Image in Image ↔ Text in Image) ─────────────────── */
+.sub-mode-switcher {
+    display: flex;
+    gap: 0;
+    margin: 0 0 20px;
+    border: 1.5px solid var(--line);
+    width: fit-content;
+    box-shadow: 4px 4px 0 var(--line);
+}
+
+.sub-mode-btn {
+    padding: 8px 20px;
+    border: none;
+    background: var(--paper);
+    color: var(--muted);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+    border-right: 1.5px solid var(--line);
+}
+
+.sub-mode-btn:last-child { border-right: none; }
+
+.sub-mode-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+.sub-mode-btn:not(.active):hover { background: rgba(12,12,12,0.06); }
+
+/* ── AI badge on panel kicker ───────────────────────────────────────────────── */
+.badge-ai {
+    display: inline-block;
+    border: 1.5px solid var(--line);
+    padding: 1px 6px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+@media (max-width: 720px) {
+    .panel { box-shadow: 10px 10px 0 var(--line); }
+    .masthead { padding-bottom: 22px; }
+    .page { padding: 36px 18px 52px; }
+}
