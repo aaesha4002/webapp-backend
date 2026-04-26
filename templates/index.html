@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Securechat | LSB Steganography</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page">
+        <header class="masthead">
+            <div class="logo-lockup">
+                <div class="logo-mark" aria-hidden="true">
+                    <span class="logo-ring"></span>
+                    <span class="logo-glyph"></span>
+                </div>
+                <div class="brand">
+                    <p class="eyebrow">Image LSB Toolkit</p>
+                    <p class="product">Securechat</p>
+                </div>
+            </div>
+            <p class="lede">Hide and retrieve files, text, or images inside your cover art. A crisp black-on-white surface with primitive geometry.</p>
+        </header>
+
+        <div class="mode-switcher" role="group" aria-label="Steganography mode">
+            <button class="mode-btn active" id="btn-lsb" type="button">LSB Steganography</button>
+            <button class="mode-btn" id="btn-ai" type="button">AI Steganography</button>
+        </div>
+
+        <main class="grid" id="lsb-panels">
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <p class="kicker">Encode</p>
+                        <h2>Hide data in a cover image</h2>
+                    </div>
+                    <p class="hint">Upload a cover, choose payload type (text, image, audio, or any file), and download the stego PNG.</p>
+                </div>
+                <form id="hide-form" class="stack" enctype="multipart/form-data">
+                    <label class="field">
+                        <span>Cover image (PNG/JPG/BMP)</span>
+                        <input type="file" name="cover" accept="image/*" required>
+                    </label>
+                    <div class="preview-block">
+                        <div class="preview-label">Cover preview</div>
+                        <div class="preview-frame" id="cover-preview">
+                            <div class="placeholder">Awaiting cover upload</div>
+                            <img alt="Cover preview" class="hidden">
+                        </div>
+                    </div>
+
+                    <fieldset class="field payload-toggle">
+                        <legend>Payload type</legend>
+                        <label><input type="radio" name="payload-mode" value="text" checked> Text</label>
+                        <label><input type="radio" name="payload-mode" value="image"> Image</label>
+                        <label><input type="radio" name="payload-mode" value="audio"> Audio</label>
+                        <label><input type="radio" name="payload-mode" value="file"> File</label>
+                    </fieldset>
+
+                    <div id="payload-text-group" class="field">
+                        <span>Message</span>
+                        <textarea name="payload_text" rows="4" placeholder="Type or paste the secret text"></textarea>
+                    </div>
+
+                    <div id="payload-file-group" class="field hidden">
+                        <span id="payload-file-label">Payload file</span>
+                        <input type="file" name="payload_file">
+                    </div>
+
+                    <div class="dual">
+                        <label class="field">
+                            <span>Alias (optional)</span>
+                            <input type="text" name="alias" placeholder="Defaults to filename or message.txt">
+                        </label>
+                        <label class="field">
+                            <span>Key (optional)</span>
+                            <input type="text" name="key" placeholder="Used for XOR obfuscation">
+                        </label>
+                    </div>
+
+                    <button type="submit" class="primary">Create stego image</button>
+                    <div class="result" id="hide-result" role="status"></div>
+                </form>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <p class="kicker">Decode</p>
+                        <h2>Retrieve hidden content</h2>
+                    </div>
+                    <p class="hint">Supply the stego PNG and key (if used). View retrieved text or imagery inline, or download the file.</p>
+                </div>
+                <form id="reveal-form" class="stack" enctype="multipart/form-data">
+                    <label class="field">
+                        <span>Stego image</span>
+                        <input type="file" name="stego" accept="image/*" required>
+                    </label>
+
+                    <label class="field">
+                        <span>Key (optional)</span>
+                        <input type="text" name="key" placeholder="Leave blank if none used">
+                    </label>
+
+                    <button type="submit" class="primary">Retrieve &amp; download</button>
+                    <div class="result" id="reveal-result" role="status"></div>
+                    <div class="preview-block">
+                        <div class="preview-label">Retrieved preview</div>
+                        <div class="preview-frame" id="reveal-preview">
+                            <div class="placeholder">Retrieved files will appear here</div>
+                            <img alt="Retrieved visual" class="hidden">
+                            <audio controls class="hidden"></audio>
+                            <pre class="hidden"></pre>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <div class="hidden" id="ai-panels">
+
+            <div class="sub-mode-switcher" role="group" aria-label="AI steganography type">
+                <button class="sub-mode-btn active" id="btn-ai-img" type="button">Image in Image</button>
+                <button class="sub-mode-btn" id="btn-ai-txt" type="button">Text in Image</button>
+            </div>
+
+            <main class="grid" id="ai-img-panels">
+
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="kicker">AI Encode <span class="badge-ai">CNN-ViT</span></p>
+                            <h2>Hide an image inside a cover</h2>
+                        </div>
+                        <p class="hint">Upload a cover image and a secret image. The model embeds the secret visually into the cover and returns the container PNG.</p>
+                    </div>
+                    <form id="ai-hide-form" class="stack" enctype="multipart/form-data">
+                        <label class="field">
+                            <span>Cover image (PNG/JPG)</span>
+                            <input type="file" name="cover" accept="image/*" required>
+                        </label>
+                        <div class="preview-block">
+                            <div class="preview-label">Cover preview</div>
+                            <div class="preview-frame" id="ai-cover-preview">
+                                <div class="placeholder">Awaiting cover upload</div>
+                                <img alt="AI cover preview" class="hidden">
+                            </div>
+                        </div>
+
+                        <label class="field">
+                            <span>Secret image to hide (PNG/JPG)</span>
+                            <input type="file" name="secret" accept="image/*" required>
+                        </label>
+                        <div class="preview-block">
+                            <div class="preview-label">Secret preview</div>
+                            <div class="preview-frame" id="ai-secret-preview">
+                                <div class="placeholder">Awaiting secret upload</div>
+                                <img alt="AI secret preview" class="hidden">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="primary">Create AI container</button>
+                        <div class="result" id="ai-hide-result" role="status"></div>
+                    </form>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="kicker">AI Extract <span class="badge-ai">CNN-ViT</span></p>
+                            <h2>Reveal the hidden image</h2>
+                        </div>
+                        <p class="hint">Upload the AI container image. The decoder network reconstructs and displays the hidden secret image.</p>
+                    </div>
+                    <form id="ai-extract-form" class="stack" enctype="multipart/form-data">
+                        <label class="field">
+                            <span>Container image (AI stego PNG)</span>
+                            <input type="file" name="container" accept="image/*" required>
+                        </label>
+
+                        <button type="submit" class="primary">Extract hidden image</button>
+                        <div class="result" id="ai-extract-result" role="status"></div>
+                        <div class="preview-block">
+                            <div class="preview-label">Revealed image</div>
+                            <div class="preview-frame" id="ai-extract-preview">
+                                <div class="placeholder">Revealed image will appear here</div>
+                                <img alt="AI revealed image" class="hidden">
+                            </div>
+                        </div>
+                    </form>
+                </section>
+
+            </main>
+
+            <main class="grid hidden" id="ai-txt-panels">
+
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="kicker">AI Encode <span class="badge-ai">TransUNet</span></p>
+                            <h2>Hide text inside a cover image</h2>
+                        </div>
+                        <p class="hint">Upload a cover image and type your secret message (max 50 characters). The model embeds the text invisibly and returns the stego PNG.</p>
+                    </div>
+                    <form id="ai-text-hide-form" class="stack" enctype="multipart/form-data">
+                        <label class="field">
+                            <span>Cover image (PNG/JPG)</span>
+                            <input type="file" name="cover" accept="image/*" required>
+                        </label>
+                        <div class="preview-block">
+                            <div class="preview-label">Cover preview</div>
+                            <div class="preview-frame" id="ai-txt-cover-preview">
+                                <div class="placeholder">Awaiting cover upload</div>
+                                <img alt="AI text cover preview" class="hidden">
+                            </div>
+                        </div>
+
+                        <label class="field">
+                            <span>Secret message <small id="ai-txt-char-count">(0 / 50)</small></span>
+                            <textarea name="text" rows="3" maxlength="50" placeholder="Type your secret message here (max 50 characters)"></textarea>
+                        </label>
+
+                        <button type="submit" class="primary">Create AI text container</button>
+                        <div class="result" id="ai-text-hide-result" role="status"></div>
+                    </form>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="kicker">AI Extract <span class="badge-ai">TransUNet</span></p>
+                            <h2>Reveal the hidden text</h2>
+                        </div>
+                        <p class="hint">Upload an AI text container image. The decoder network recovers and displays the hidden message.</p>
+                    </div>
+                    <form id="ai-text-extract-form" class="stack" enctype="multipart/form-data">
+                        <label class="field">
+                            <span>Container image (AI text stego PNG)</span>
+                            <input type="file" name="stego" accept="image/*" required>
+                        </label>
+
+                        <button type="submit" class="primary">Extract hidden text</button>
+                        <div class="result" id="ai-text-extract-result" role="status"></div>
+                        <div class="preview-block">
+                            <div class="preview-label">Extracted message</div>
+                            <div class="preview-frame" id="ai-text-extract-preview">
+                                <div class="placeholder">Extracted text will appear here</div>
+                                <pre class="hidden"></pre>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+
+            </main>
+
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
